@@ -19,8 +19,8 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   // ⬇️ ⬇️ ⬇️
   let db = firebase.firestore()
 
-  let querySnapshot = await db.collection('watched').get() //Retrieve All Documents in a Collection but what's the meaning 'watched' here?
-  let movies = querySnapshot.docs //should 'watched' above be the same as 'watchlist' here
+  let querySnapshot = await db.collection('movie').get() //link to firestore collection 'movie'
+  let movie = querySnapshot.docs //since no data on collection now, need to delete?
 
   let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=0d56482eedebdaf9dae988ede2203365&language=en-US`
   let response = await fetch(url)
