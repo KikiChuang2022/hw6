@@ -10,9 +10,32 @@
   
   <div class="movies p-16 md:flex md:flex-wrap">
     <!-- JavaScript puts stuff here -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+
   </div>
 
   <!-- Put the Firebase config here -->
+  
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDExBwzGqAa5WRdPYOFM7sNLHbAqoOKV4s",
+      authDomain: "kiei-hw6-fc007.firebaseapp.com",
+      projectId: "kiei-hw6-fc007",
+      storageBucket: "kiei-hw6-fc007.appspot.com",
+      messagingSenderId: "103692631403",
+      appId: "1:103692631403:web:e73b25d382cbe98117e02e"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
   <script src="movies.js"></script>
 </body>

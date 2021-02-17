@@ -17,6 +17,15 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   // movies. Write the contents of this array to the JavaScript
   // console to ensure you've got good data
   // ⬇️ ⬇️ ⬇️
+  let db = firebase.firestore()
+
+  let querySnapshot = await db.collection('watched').get() //Retrieve All Documents in a Collection but what's the meaning 'watched' here?
+  let movies = querySnapshot.docs //should 'watched' above be the same as 'watchlist' here
+
+  let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=58f8dcdd4a07aa1b6258c89a62e15ad2&language=en-US`
+  let response = await fetch(url)
+  let json = await response.json()
+  let movies = json.results
 
   // ⬆️ ⬆️ ⬆️ 
   // End Step 1
@@ -33,6 +42,76 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   //   <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
   // </div>
   // ⬇️ ⬇️ ⬇️
+
+  // for (let i=0; i<movies.length; i++) {
+  //   let movie = movies[i]
+  //   let movieData = movie.data()
+  //   let movieId = movie.id
+  //   let movieFilename = movie.poster_path
+  //   let movieImage = `https://image.tmdb.org/t/p/w500/${movieFilename}`
+    
+    
+  //   document.querySelector('.movies').insertAdjacentElement('beforeend', `
+  //   <div class="w-1/5 p-4 movie-${movieId}">
+  //     <img src="${movieImage}" class="w-full">
+  //     <a href="#" class="watched-button-${movieId} block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
+  //   </div>
+  //   `)
+
+  //   document.querySelector(`.watched-button-${movieId}`).addEventListener('click', function(event){
+  //     event.preventDefault()
+  //     document.querySelector(`.movie-${movieId}`).classList.add('opacity-20')
+
+  //   })
+
+  // }
+  for (let i = 0; i < movies.length; i++) {
+    let movie = movies[i]
+    let movieId = movie.id
+    let movieTitle = movie.original_title
+    let movieImageFileName = movie.poster_path
+    let movieImage = `https://image.tmdb.org/t/p/w500/${movieImageFileName}`
+    let docRef = await db.collection('watched').doc(`${movieID}`).get()
+    let item = docRef.data()
+    console.log(item);
+
+    printMovie(movieId, movieImage, item)
+    movieListener(movieId, movieTitle)
+
+  }
+
+  async function printMovie(movieId, movieImage, item) {
+
+    if (item) {
+      document.querySelector('.movies').insertAdjacentHTML('beforeend',
+        `
+          <div class='w-1/5 p-4 movie-${movieId} opacity-20">
+            <img src='${movieImage}' class='w-full'>
+            <a href='#' class='watched-button-${movieId} block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded'>I've watched this!</a>
+          </div>
+        `
+      )
+    } else {
+      document.querySelector('.movies').insertAdjacentHTML('beforeend',
+        `
+          <div class='w-1/5 p-4 movie-${movieId}'>
+            <img src='${movieImage}' class='w-full'>
+            <a href='#' class='watched-button-${movieId} block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded'>I've watched this!</a>
+          </div>
+        `
+      )
+    }
+  }
+
+  function movieListener(movieId, movieName) {
+    document.querySelector(`.watched-button-${movieId}`).addEventListener('click', async function (event) {
+      event.preventDefault()
+      document.querySelector(`.movie-${movieId}`).classList.add('opacity-20')
+      await db.collection('watched').doc(`${movieId}`).set({
+        movie: `${movieName}`
+      })
+    })
+  }
 
   // ⬆️ ⬆️ ⬆️ 
   // End Step 2
