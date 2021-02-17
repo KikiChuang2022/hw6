@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   let querySnapshot = await db.collection('watched').get() //Retrieve All Documents in a Collection but what's the meaning 'watched' here?
   let movies = querySnapshot.docs //should 'watched' above be the same as 'watchlist' here
 
-  let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=58f8dcdd4a07aa1b6258c89a62e15ad2&language=en-US`
+  let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=0d56482eedebdaf9dae988ede2203365&language=en-US`
   let response = await fetch(url)
   let json = await response.json()
   let movies = json.results
@@ -73,7 +73,6 @@ window.addEventListener('DOMContentLoaded', async function(event) {
     let movieImage = `https://image.tmdb.org/t/p/w500/${movieImageFileName}`
     let docRef = await db.collection('watched').doc(`${movieID}`).get()
     let item = docRef.data()
-    console.log(item);
 
     printMovie(movieId, movieImage, item)
     movieListener(movieId, movieTitle)
@@ -84,19 +83,16 @@ window.addEventListener('DOMContentLoaded', async function(event) {
 
     if (item) {
       document.querySelector('.movies').insertAdjacentHTML('beforeend',
-        `
-          <div class='w-1/5 p-4 movie-${movieId} opacity-20">
-            <img src='${movieImage}' class='w-full'>
-            <a href='#' class='watched-button-${movieId} block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded'>I've watched this!</a>
-          </div>
-        `
+        ` <div class='w-1/5 p-4 movie-${movieId} opacity-20">
+          <img src='${movieImage}' class='w-full'>
+          <a href='#' class='watched-button-${movieId} block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded'>I've watched this!</a>
+          </div>`
       )
     } else {
       document.querySelector('.movies').insertAdjacentHTML('beforeend',
-        `
-          <div class='w-1/5 p-4 movie-${movieId}'>
-            <img src='${movieImage}' class='w-full'>
-            <a href='#' class='watched-button-${movieId} block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded'>I've watched this!</a>
+        ` <div class='w-1/5 p-4 movie-${movieId}'>
+          <img src='${movieImage}' class='w-full'>
+          <a href='#' class='watched-button-${movieId} block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded'>I've watched this!</a>
           </div>
         `
       )
