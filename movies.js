@@ -64,7 +64,6 @@ window.addEventListener('DOMContentLoaded', async function(event) {
       }
     }
 
-
     document.querySelector('.movies').insertAdjacentHTML('beforeend',` 
     <div class="${opacity} movie-${movieId} w-1/5 p-4 ">
       <img src="${movieImage}" class="w-full">
@@ -78,12 +77,8 @@ window.addEventListener('DOMContentLoaded', async function(event) {
 
       await db.collection('watched').doc(`${movieId}`).set({
       })
-
-
     })
-
-
-
+    
   }
 
 
